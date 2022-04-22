@@ -1,3 +1,10 @@
+# Setting up the project
+1- On your computer, go to the directory you want to clone the project into, and run the following command :
+`git clone https://github.com/SefiatAhmedAmine/braodcastMailer.git`
+
+2- go to the project and install the node modules by running:
+`npm install`
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
