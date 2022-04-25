@@ -3,7 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Tiptap from './components/Tiptap';
 
-const BACK_URL = "http://courrier.back";
+const BACK_URL = "https://www.omranecom.ma/monasaba/index.php";
 
 
 function Courrier() {
@@ -22,24 +22,25 @@ function Courrier() {
     var data = {
       title: title,
       message: content,
-      expediteur: expediteur,
+      expediteur: expediteur
     }
-    console.log(data);
+     console.log(data);
     setDisabled(true)
     // return;
     axios.post(BACK_URL, data)
       .then(function (response) {
         setDisabled(false)
-        // console.log(response);
-        alert("Message envoyé avec succès!")
+         console.log(response);
+		if (response.data["status"] === "success")
+			alert("Message envoyé avec succès!")
+		else alert("Une erreur est survenue lors de l'envoie du message1!!!!");
       })
       .catch(function (error) {
-        setDisabled(false)
-        // console.log(error);
-        alert("Une erreur est survenue lors de l'envoie du message!")
+        setDisabled(false);
+         console.log(error);
+        alert("Une erreur est survenue lors de l'envoie du message2!");
       })
 
-    // window.location.replace("http://alomrane.back");
   }
 
   return (
@@ -47,7 +48,7 @@ function Courrier() {
 
       {/* <!-- The Modal --> */}
       <div className="modal" id="myModal">
-        <div className="modal-dialog">
+        <div className="modal-dialog" style={{minWidth: "900px"}}>
           <div className="modal-content">
 
             {/* <!-- Modal Header --> */}
@@ -59,17 +60,17 @@ function Courrier() {
             {/* <!-- Modal body --> */}
             <div className="modal-body">
 
-              <div className="mb-3 mt-3">
+              <div className="mb-2">
                 <label className="form-label">Expediteur:</label>
                 <input type="text" className="form-control" id="expediteur" placeholder="Entrer l'email de l'expediteur" name="expediteur"
                   onChange={(e) => { setExpediteur(e.target.value) }} />
               </div>
-              <div className="mb-3 mt-3">
+              <div className="mb-2 mt-2">
                 <label className="form-label">Objet:</label>
                 <input type="text" className="form-control" id="title" placeholder="Entrer un titre de message" name="title"
                   onChange={(e) => { setTitle(e.target.value) }} />
               </div>
-              <div>
+              <div >
                 <label className="form-label">Message:</label>
                 <Tiptap setContent={setContent} />
               </div>
@@ -78,7 +79,7 @@ function Courrier() {
 
             {/* <!-- Modal footer --> */}
             <div className="modal-footer">
-              <button disabled={disabled} type="submit" onClick={sendEmail} className="btn btn-primary mt-2">Diffuser à tout le personnelle</button>
+              <button disabled={disabled} type="submit" onClick={sendEmail} className="btn btn-primary mt-2">Diffuser à tout le personnel</button>
             </div>
 
           </div>
