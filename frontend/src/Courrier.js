@@ -24,13 +24,13 @@ function Courrier() {
       message: content,
       expediteur: expediteur
     }
-    console.log(data);
+    // console.log(data);
     setDisabled(true)
     // return;
     axios.post(BACK_URL, data)
       .then(function (response) {
         setDisabled(false)
-        console.log(response);
+        // console.log(response);
         if (response.data["status"] == true)
           alert("Message envoyé avec succès!")
         else alert("Une erreur est survenue lors de l'envoie du message1!!!!");
