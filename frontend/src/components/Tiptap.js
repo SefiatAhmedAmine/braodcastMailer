@@ -4,6 +4,9 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import Image from '@tiptap/extension-image';
+import axios from 'axios';
+import FormData from 'form-data';
+
 import {
   FaBold, FaItalic, FaStrikethrough, FaListOl, FaListUl,
   FaQuoteLeft, FaRedo, FaUndo, FaRemoveFormat, FaCode, FaUnderline,
@@ -13,14 +16,35 @@ import {
 
 import './styles.css'
 
-
+const BACKEND_URL = "http://courrier.back/backend/src/controllers/UploadController.php";
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null
   }
 
   const uploadImage = (e) => {
-    editor.chain().focus().setImage({src: URL.createObjectURL(e.target.files[0])}).run()
+    
+    const file = e.target.files[0];
+    var data = new FormData();
+    data.append('file', file);
+
+    axios({
+      method: 'post',
+      url: BACKEND_URL,
+      data: data,
+      headers: {'Content-Type': 'multipart/form-data' }
+      })
+      .then(function (response) {
+          //handle success
+          let url = response.data.imgURL;
+          console.log(url)
+          editor.chain().focus().setImage({ src: url }).run()
+          // console.log(response);
+      })
+      .catch(function (response) {
+          //handle error
+          console.log(response);
+      });
   }
 
   return (
@@ -131,8 +155,8 @@ const MenuBar = ({ editor }) => {
         <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
           <FaLine />
         </button>
-          <label htmlFor="image" className='image'><FaImage /></label>
-          <input type="file" name="image" accept="image/*" id="image" hidden onChange={uploadImage} />
+        <label htmlFor="image" className='image'><FaImage /></label>
+        <input type="file" name="image" accept="image/*" id="image" hidden onChange={uploadImage} />
 
       </div>
       {/* <button onClick={() => editor.chain().focus().setHardBreak().run()}>

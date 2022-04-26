@@ -5,7 +5,7 @@ import Courrier from './Courrier'
 function App() {
   return (
     <>
-      <nav className="navbar navbar-expand-sm bg-primary navbar-dark">
+      <nav className="navbar navbar-expand-sm bg-primary navbar-dark sticky-top">
         <div className="container-fluid">
           <a className="navbar-brand" href=".">HOLDING AL OMRANE</a>          
         </div>

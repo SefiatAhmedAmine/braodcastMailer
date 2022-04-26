@@ -27,7 +27,7 @@ function SideBar() {
     }
   }
   return (
-    <div id="mySidebar" className="sidebar">
+    <div id="mySidebar" className="sidebar sticky">
       <button className="openbtn" onClick={handleSideBar}>☰</button>
       <div id='mySideBar-content' className='sidebar-content'>
       {/* Button to Open the Modal  */}
