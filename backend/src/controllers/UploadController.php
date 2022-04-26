@@ -1,7 +1,7 @@
 <?php
 
-include($_SERVER['DOCUMENT_ROOT'] . '/backend/headers.php');
-include($_SERVER['DOCUMENT_ROOT'] . '/backend/src/helpers.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/headers.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/helpers.php');
 
 class UploadController
 {

@@ -2,11 +2,11 @@
 
 use CourrierController as GlobalCourrierController;
 
-include($_SERVER['DOCUMENT_ROOT'] . '/backend/headers.php');
+include($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/headers.php');
 
-require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/DAO/DB.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/DAO/UserDAO.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/helpers.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/DAO/DB.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/DAO/UserDAO.php');
+require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/helpers.php');
 
 class CourrierController
 {
