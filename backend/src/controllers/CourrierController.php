@@ -1,12 +1,14 @@
 <?php
 
-use CourrierController as GlobalCourrierController;
-
 include($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/headers.php');
-
 require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/DAO/DB.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/DAO/UserDAO.php');
 require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/helpers.php');
+
+// include($_SERVER['DOCUMENT_ROOT'] . '/backend/headers.php');
+// require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/DAO/DB.php');
+// require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/DAO/UserDAO.php');
+// require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/helpers.php');
 
 class CourrierController
 {
@@ -64,7 +66,7 @@ class CourrierController
    *
    * @return void
    */
-  public function sendMessageToAmine()
+  public function sendMessageToTest()
   {
 
     if ($this->validSendMessageRequest()) {
@@ -75,13 +77,20 @@ class CourrierController
       // Additional headers 
       $header .= 'From: <' . strip_tags($_POST['expediteur']) . '>' . "\n";
 
-      $state = false;
       $destination = "amine-sefiat@hotmail.com";
       $subject = $_POST['title'];
       $message = "<h4>Bonjour SEFIAT</h4>\n";
       $message .= $_POST['message'];
 
       $state = mail($destination, $subject, $message, $header);
+
+      $destination2 = "m.elmoutassim@alomrane.gov.ma";
+      $subject2 = $_POST['title'];
+      $message2 = "<h4>Bonjour SEFIAT</h4>\n";
+      $message2 .= $_POST['message'];
+
+      $state = $state || mail($destination2, $subject2, $message2, $header);
+
     }
     echo json_encode(['status' => $state, 'message' => $message]);
   }
@@ -92,13 +101,6 @@ $controller = new CourrierController();
 // get the sent post data
 $_POST = Helpers::getPost();
 
-$controller->sendMessageToAmine();
+$controller->sendMessageToTest();
 
-// if (isset($_POST['action'])) {
-//   switch($_POST['action']) {
-//     case 'sendMessage':
-//       $controller->sendMessageToAmine();
-//       break;
-//   }
-// }
 

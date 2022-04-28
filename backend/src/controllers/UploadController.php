@@ -1,7 +1,11 @@
 <?php
 
+
 include($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/headers.php');
 include($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/helpers.php');
+
+// include($_SERVER['DOCUMENT_ROOT'] . '/backend/headers.php');
+// include($_SERVER['DOCUMENT_ROOT'] . '/backend/src/helpers.php');
 
 class UploadController
 {
@@ -27,10 +31,12 @@ class UploadController
       $extension = $fileInfo['extension'];
       $allowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
       if (in_array($extension, $allowedExtensions)) {
-        $img = '/backend/public/upload/' . uniqid() . basename($_FILES['file']['name']); 
+        $img = '/monasaba/backend/public/upload/' . uniqid() . basename($_FILES['file']['name']); 
+        // $img = '/backend/public/upload/' . uniqid() . basename($_FILES['file']['name']); 
         move_uploaded_file($_FILES['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $img);
 
-        echo json_encode(['imgURL' => "http://" . $_SERVER['HTTP_HOST'] . $img]);
+        // echo json_encode(['imgURL' => "http://" . $_SERVER['HTTP_HOST'] . $img]);
+        echo json_encode(['imgURL' => "https://" . $_SERVER['HTTP_HOST'] . $img]);
       }
 
       

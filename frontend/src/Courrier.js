@@ -3,8 +3,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import Tiptap from './components/Tiptap';
 
-// const BACK_URL = "https://www.omranecom.ma/monasaba/index.php";
-const BACK_URL = 'http://courrier.back/backend/src/controllers/CourrierController.php';
+const BACK_URL = "https://www.omranecom.ma/monasaba/backend/src/controllers/CourrierController.php";
+// const BACK_URL = 'http://courrier.back/backend/src/controllers/CourrierController.php';
 
 function Courrier() {
   const [content, setContent] = useState('');

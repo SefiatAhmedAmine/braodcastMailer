@@ -16,7 +16,8 @@ import {
 
 import './styles.css'
 
-const BACKEND_URL = "http://courrier.back/backend/src/controllers/UploadController.php";
+const BACKEND_URL = "https://www.omranecom.ma/monasaba/backend/src/controllers/UploadController.php";
+// const BACKEND_URL = "http://courrier.back/backend/src/controllers/UploadController.php";
 const MenuBar = ({ editor }) => {
   if (!editor) {
     return null
