@@ -7,20 +7,27 @@ class DB
    *
    * @var string
    */
-  private $servername = "localhost";
+  //private $servername = "localhost";
+  private $servername = "omranecoxvprosol.mysql.db";
+  
   /**
    * the name of the database
    *
    * @var string
    */
-  private $dbname = "test";
+  //private $dbname = "test";
+  private $dbname = "omranecoxvprosol";
+  
   /**
    * database credentials
    *
    * @var string
    */
-  private $username = "root";
-  private $password = "";
+  //private $username = "root";
+  //private $password = "";
+  private $username = "omranecoxvprosol";
+  private $password = "Prosol17";
+
   /**
    * the singleton object
    *
