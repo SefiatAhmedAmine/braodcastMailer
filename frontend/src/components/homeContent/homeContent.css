@@ -1,0 +1,70 @@
+.sp-container {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	/* width: 100%; */
+	height: 100%;
+	z-index: 0;
+}
+.sp-content {
+	position: absolute;
+  color: rgb(252, 0, 0);
+	/* width: 100%; */
+	height: 100%;
+	left: 0px;
+	top: 0px;
+	z-index: 1000;
+}
+.sp-container h2 {
+	position: absolute;
+	top: 50%;
+	/* line-height: 100px; */
+	height: 90px;
+	margin-top: -50px;
+	/* font-size: 90px; */
+	width: 100%;
+	text-align: center;
+  padding-left: 50px;
+  font-weight: bold;
+}
+
+.frame-1{
+  animation-name: fadeInOut-frame-1;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+.frame-2{
+  animation-name: fadeInOut-frame-2;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fadeInOut-frame-1 {
+  0%{
+    opacity: 0;
+  }
+  25%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInOut-frame-2 {
+  0%{
+    opacity: 0;
+  }
+  50%{
+    opacity: 0;
+  }
+  75%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}

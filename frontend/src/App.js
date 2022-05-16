@@ -1,24 +1,30 @@
-import React from 'react'
-import SideBar from './components/sidebar/SideBar'
-import Courrier from './Courrier'
+import React from "react";
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
+
 
 function App() {
   return (
-    <>
-      <nav className="navbar navbar-expand-sm bg-primary navbar-dark sticky-top">
-        <div className="container-fluid">
-          <a className="navbar-brand" href=".">HOLDING AL OMRANE</a>          
-        </div>
-      </nav>
-      
-    <SideBar/>
 
-    <div id=''></div>
+    <Routes>
 
-    <Courrier/>
+      <Route path="/" element={<Login />} />
 
-    </>
-  )
+      <Route axact path="/home" element={
+        <ProtectedRoute><Home />
+      </ProtectedRoute>} 
+      />
+
+      <Route path="*" component={() => "404 NOT FOUND"} />
+
+    </Routes>
+
+  );
 }
 
-export default App
+export default App;

@@ -3,8 +3,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import Tiptap from './components/Tiptap';
 
-const BACK_URL = "https://www.omranecom.ma/monasaba/backend/src/controllers/CourrierController.php";
-// const BACK_URL = 'http://courrier.back/backend/src/controllers/CourrierController.php';
+// const BACK_URL = "https://www.omranecom.ma/monasaba/backend/src/controllers/CourrierController.php";
+const BACK_URL = 'http://courrier.back/backend/src/controllers/CourrierController.php';
 
 function Courrier() {
   const [content, setContent] = useState('');
@@ -20,6 +20,8 @@ function Courrier() {
     // var form = document.getElementById('formID');
     // console.log(form);
     var data = {
+      user: localStorage.getItem('user'),
+      user_id: localStorage.getItem('user_id'),
       title: title,
       message: content,
       expediteur: expediteur
@@ -30,7 +32,7 @@ function Courrier() {
     axios.post(BACK_URL, data)
       .then(function (response) {
         setDisabled(false)
-        // console.log(response);
+        console.log(response);
         if (response.data["status"] == true)
           alert("Message envoyé avec succès!")
         else alert("Une erreur est survenue lors de l'envoie du message1!!!!");
@@ -48,7 +50,7 @@ function Courrier() {
 
       {/* <!-- The Modal --> */}
       <div className="modal" id="myModal">
-        <div className="modal-dialog" style={{ minWidth: "900px" }}>
+        <div className="modal-dialog" style={{ minWidth: "min(1000px, 70%)" }}>
           <div className="modal-content">
 
             {/* <!-- Modal Header --> */}

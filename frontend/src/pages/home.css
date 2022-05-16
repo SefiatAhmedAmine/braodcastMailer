@@ -1,0 +1,8 @@
+.background{
+  height: 100%;
+  background-image: url("../ressources/DSC01730.JPG") ;
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+  
+}

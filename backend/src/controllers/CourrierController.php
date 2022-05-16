@@ -1,14 +1,12 @@
 <?php
 
-include($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/headers.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/DAO/DB.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/DAO/UserDAO.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/monasaba/backend/src/helpers.php');
+session_start();
 
-// include($_SERVER['DOCUMENT_ROOT'] . '/backend/headers.php');
-// require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/DAO/DB.php');
-// require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/DAO/UserDAO.php');
-// require_once($_SERVER['DOCUMENT_ROOT'] . '/backend/src/helpers.php');
+include(__DIR__ . '/../../headers.php');
+require_once(__DIR__ .  '/../DAO/DB.php');
+require_once(__DIR__ . '/../DAO/UserDAO.php');
+require_once(__DIR__ . '/../DAO/LogsDAO.php');
+require_once(__DIR__ . '/../helpers.php');
 
 class CourrierController
 {
@@ -30,6 +28,34 @@ class CourrierController
     );
   }
 
+  function validUser()
+  {
+    return (isset($_POST['user_id'])
+      && isset($_POST['user'])
+      && md5($_POST['user']) == $_POST['user_id'] 
+    );
+  }
+
+  function sendMail($to, $subject, $message)
+  {
+    // Set content-type header for sending HTML email 
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    // Additional headers 
+    $headers .= 'From: <' . strip_tags($_POST['expediteur']) . '>' . "\n";
+
+    if (mail($to, $subject, $message, $headers)) {
+      $log = new LogsDAO();
+      $log->store([
+        'expeditor' => $_POST['user'],
+        'subject' => $subject,
+        'send_at' => date("Y-m-d h:i:sa")
+      ]);
+      return true;
+    }
+    return false;
+  }
+
   /**
    * Send message to all users
    * HTTP method : POST
@@ -38,26 +64,24 @@ class CourrierController
    */
   public function sendMessageToUsers()
   {
-    if ($this->validSendMessageRequest()) {
+    $state = false;
+    $message = "un erreur est survenue lors de l'execution de la requete";
+    if ($this->validSendMessageRequest() && $this->validUser() ) {
       $userDAO = new UserDAO();
       $users = $userDAO->all();
 
-      // Set content-type header for sending HTML email 
-      $header = "MIME-Version: 1.0" . "\r\n";
-      $header .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-      // Additional headers 
-      $header .= 'From: <' . strip_tags($_POST['expediteur']) . '>' . "\n";
-
       $state = false;
       foreach ($users as $row) {
-        $destination = $row[$userDAO->getEmail()];
+        $destination = $row[$userDAO->getEmailCol()];
         $subject = strip_tags($_POST['title']);
-        $message = "<h4>Bonjour " . $row[$userDAO->getName()] . "</h4>\n";
+        $message = "<h4>Bonjour " . $row[$userDAO->getLastnameCol()] . "</h4>\n";
         $message .= strip_tags($_POST['message']);
 
-        $state = $state || mail($destination, $subject, $message, $header);
+        $state = $state || $this->sendMail($destination, $subject, $message);
       }
     }
+    echo json_encode(['status' => $state, 'message' => $_SESSION]);
+
   }
 
   /**
@@ -68,28 +92,21 @@ class CourrierController
    */
   public function sendMessageToTest()
   {
-
     if ($this->validSendMessageRequest()) {
 
-      // Set content-type header for sending HTML email 
-      $header = "MIME-Version: 1.0" . "\r\n";
-      $header .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-      // Additional headers 
-      $header .= 'From: <' . strip_tags($_POST['expediteur']) . '>' . "\n";
-
-      $destination = "amine-sefiat@hotmail.com";
+      $destination = "amine.sefiat@gmail.com";
       $subject = $_POST['title'];
       $message = "<h4>Bonjour SEFIAT</h4>\n";
       $message .= $_POST['message'];
 
-      $state = mail($destination, $subject, $message, $header);
+      $state = $this->sendMail($destination, $subject, $message);
 
-      $destination2 = "m.elmoutassim@alomrane.gov.ma";
-      $subject2 = $_POST['title'];
-      $message2 = "<h4>Bonjour SEFIAT</h4>\n";
-      $message2 .= $_POST['message'];
+      // $destination2 = "m.elmoutassim@alomrane.gov.ma";
+      // $subject2 = $_POST['title'];
+      // $message2 = "<h4>Bonjour SEFIAT</h4>\n";
+      // $message2 .= $_POST['message'];
 
-      $state = $state || mail($destination2, $subject2, $message2, $header);
+      // $state = $state || $this->sendMail($destination2, $subject2, $message2);
 
     }
     echo json_encode(['status' => $state, 'message' => $message]);
@@ -100,7 +117,4 @@ $controller = new CourrierController();
 
 // get the sent post data
 $_POST = Helpers::getPost();
-
-$controller->sendMessageToTest();
-
-
+$controller->sendMessageToUsers();
