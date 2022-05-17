@@ -4,7 +4,7 @@ session_start();
 
 include(__DIR__ . '/../../headers.php');
 require_once(__DIR__ .  '/../DAO/DB.php');
-require_once(__DIR__ . '/../DAO/UserDAO.php');
+require_once(__DIR__ . '/../DAO/PersonnelDAO.php');
 require_once(__DIR__ . '/../DAO/LogsDAO.php');
 require_once(__DIR__ . '/../helpers.php');
 
@@ -67,14 +67,15 @@ class CourrierController
     $state = false;
     $message = "un erreur est survenue lors de l'execution de la requete";
     if ($this->validSendMessageRequest() && $this->validUser() ) {
-      $userDAO = new UserDAO();
-      $users = $userDAO->all();
+      $personnelDAO = new PersonnelDAO();
+      $users = $personnelDAO->all();
 
       $state = false;
       foreach ($users as $row) {
-        $destination = $row[$userDAO->getEmailCol()];
+        $sexe = $row[$personnelDAO->getSexeCol()] == 0 ? "Mr" : "Mme";
+        $destination = $row[$personnelDAO->getEmailCol()];
         $subject = strip_tags($_POST['title']);
-        $message = "<h4>Bonjour " . $row[$userDAO->getLastnameCol()] . "</h4>\n";
+        $message = "<h4>Bonjour ".$sexe." ".$row[$personnelDAO->getLastnameCol()]."</h4>\n";
         $message .= strip_tags($_POST['message']);
 
         $state = $state || $this->sendMail($destination, $subject, $message);
@@ -92,21 +93,14 @@ class CourrierController
    */
   public function sendMessageToTest()
   {
-    if ($this->validSendMessageRequest()) {
+    if ($this->validSendMessageRequest() && $this->validUser()) {
 
       $destination = "amine.sefiat@gmail.com";
       $subject = $_POST['title'];
-      $message = "<h4>Bonjour SEFIAT</h4>\n";
+      $message = "<h4>Bonjour Mr SEFIAT</h4>\n";
       $message .= $_POST['message'];
 
       $state = $this->sendMail($destination, $subject, $message);
-
-      // $destination2 = "m.elmoutassim@alomrane.gov.ma";
-      // $subject2 = $_POST['title'];
-      // $message2 = "<h4>Bonjour SEFIAT</h4>\n";
-      // $message2 .= $_POST['message'];
-
-      // $state = $state || $this->sendMail($destination2, $subject2, $message2);
 
     }
     echo json_encode(['status' => $state, 'message' => $message]);
