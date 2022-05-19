@@ -16,8 +16,10 @@ function App() {
       <Route path="/" element={<Login />} />
 
       <Route axact path="/home" element={
-        <ProtectedRoute><Home />
-      </ProtectedRoute>} 
+        <ProtectedRoute>
+          <Home />
+        </ProtectedRoute>
+      } 
       />
 
       <Route path="*" component={() => "404 NOT FOUND"} />

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-import {Navigate} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import auth from '../services/auth';
 const Backend = 'http://courrier.back/backend/src/controllers/AuthController.php';
 
@@ -9,6 +9,7 @@ export const Login = props => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  let navigate = useNavigate();
 
   const authenticate = () => {
     let $data = {
@@ -22,7 +23,7 @@ export const Login = props => {
       console.log(response);
       if (response.data["status"] == true){
         auth.login(response.data["user"], response.data['user_id'])
-        window.location='/home';
+        navigate('/home', {replace: true});
       }
     })
     .catch(function (error){
